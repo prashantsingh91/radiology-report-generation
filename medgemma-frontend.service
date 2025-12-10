@@ -1,0 +1,20 @@
+[Unit]
+Description=MedGemma Frontend Service
+After=network.target medgemma-backend.service
+Requires=medgemma-backend.service
+
+[Service]
+Type=simple
+User=psingh
+WorkingDirectory=/home/psingh/medgemma/medgemma-app/frontend
+Environment="PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/node/bin"
+Environment="NODE_ENV=production"
+ExecStart=/usr/bin/npm run dev
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+

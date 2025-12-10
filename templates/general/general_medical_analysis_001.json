@@ -1,0 +1,88 @@
+{
+  "template_id": "general_medical_analysis_001",
+  "name": "General Medical Image Analysis",
+  "category": "general",
+  "modality": "Multi-Modal",
+  "description": "Generalized template for medical image analysis across various modalities (radiology, pathology, dermatology, ophthalmology, etc.)",
+  
+  "medical_sections": [
+    {
+      "section_id": "clinical_details",
+      "section_name": "Clinical Details",
+      "required": true,
+      "ai_generated": true,
+      "instructions": "Briefly state the reason for the study and relevant clinical context from observations. Include patient presentation, symptoms, or clinical indication if available.",
+      "field_id": "CLINICAL_DETAILS"
+    },
+    {
+      "section_id": "findings",
+      "section_name": "Findings",
+      "required": true,
+      "ai_generated": true,
+      "instructions": "Expand on the Clinical Observations in detail. Use the Clinical Observations as the foundation and provide a comprehensive description. Do not invent new observations beyond what is stated. If the observations indicate 'normal' or no abnormalities, write a detailed normal report describing the normal appearance of all relevant anatomical structures or features.",
+      "field_id": "FINDINGS",
+      "user_input_field": true,
+      "user_input_label": "Clinical Observations",
+      "user_input_placeholder": "Enter observations (e.g., 'bilateral lower lobe opacities', 'normal', 'suspicious lesion in upper right quadrant', etc.)"
+    },
+    {
+      "section_id": "impression",
+      "section_name": "Impression",
+      "required": true,
+      "ai_generated": true,
+      "instructions": "Summarize the primary findings and diagnosis in 1–3 lines (not a single word). Provide a concise but complete diagnostic statement based on the findings.",
+      "field_id": "IMPRESSION"
+    },
+    {
+      "section_id": "recommendations",
+      "section_name": "Recommendations",
+      "required": false,
+      "ai_generated": true,
+      "instructions": "If follow-up, additional imaging, or further evaluation is indicated, state it briefly; otherwise return 'None' or 'No further imaging recommended at this time'.",
+      "field_id": "RECOMMENDATIONS"
+    }
+  ],
+  
+  "full_template_format": "MEDICAL IMAGE ANALYSIS REPORT\n\nPatient Name: {PATIENT_NAME}\nPatient ID: {PATIENT_ID}\nAge: {PATIENT_AGE}\nSex: {PATIENT_SEX}\nStudy Date: {STUDY_DATE}\nModality: {MODALITY}\nStudy Type: {STUDY_TYPE}\nReferring Physician: {REFERRING_PHYSICIAN}\n\nCLINICAL DETAILS:\n{CLINICAL_DETAILS}\n\nFINDINGS:\n{FINDINGS}\n\nIMPRESSION:\n{IMPRESSION}\n\nRECOMMENDATIONS:\n{RECOMMENDATIONS}\n\n---\nReport generated on {REPORT_DATE}",
+  
+  "medical_sections_format": "CLINICAL DETAILS:\n{CLINICAL_DETAILS}\n\nFINDINGS:\n{FINDINGS}\n\nIMPRESSION:\n{IMPRESSION}\n\nRECOMMENDATIONS:\n{RECOMMENDATIONS}",
+  
+  "prompt_template": "You are an expert medical AI assistant specializing in {modality_type} analysis.\n\nPatient Information (for reference only – DO NOT generate this as a section):\n{dicom_metadata_example}\n\nClinical Observations (this is your primary clinical input; base your report ONLY on this):\n{user_findings}\n\nStudy Context:\n{study_context}\n\nYou must generate the following sections in this exact order:\n{section_headers}\n\nIMPORTANT: Always write actual medical content. NEVER use placeholder text, brackets, or instructions in your response. Write complete sentences with real medical findings.\n\nFor the CLINICAL DETAILS section:\n- Briefly state the reason for the study and relevant clinical context\n- Include patient presentation, symptoms, or clinical indication if available\n- Keep it concise (2-3 sentences)\n- Write actual content, not placeholders\n\nFor the FINDINGS section:\n- Expand on the Clinical Observations in detail, providing a comprehensive description\n- Use the Clinical Observations as the foundation and build upon them\n- Do NOT invent new observations beyond what is stated in the Clinical Observations\n- Write as a coherent narrative paragraph describing all findings together\n- If observations indicate 'normal' or no abnormalities, write a detailed normal report describing the normal appearance of all relevant anatomical structures or features\n- CRITICAL: Do NOT write a single word - always provide a detailed description (minimum 2-3 sentences)\n- CRITICAL: NEVER use placeholder text like '[heart size, if known...]' - always write actual findings (e.g., 'The heart size is normal' or 'The heart appears slightly enlarged')\n- Organize findings systematically (e.g., by anatomical region, by pathology type, or chronologically)\n- Write complete sentences with actual medical observations, not instructions or placeholders\n\nFor the IMPRESSION section:\n- Write 1–3 concise sentences summarizing the primary findings and diagnosis (NOT a single word)\n- Provide a complete diagnostic statement based on the findings\n- Example: \"Cardiomegaly is present. The cardiac silhouette is enlarged with increased cardiothoracic ratio. No acute pulmonary abnormalities are identified.\"\n- If multiple findings are present, prioritize the most clinically significant\n- Write actual diagnostic statements, not placeholders\n\nFor the RECOMMENDATIONS section:\n- If follow-up, additional imaging, or further evaluation is indicated, state it briefly\n- Otherwise, return 'None' or 'No further imaging recommended at this time'\n- Be specific about timing if follow-up is recommended (e.g., 'Follow-up in 6-8 weeks')\n- Write actual recommendations, not placeholder text\n\nGenerate ONLY the sections in order. Do not include patient demographics or study metadata in the generated sections. Write actual medical content with complete sentences, never use brackets, placeholders, or instructional text.",
+  
+  "modality_specific_prompts": {
+    "radiology": {
+      "modality_type": "radiology",
+      "study_context": "This is a radiological imaging study. Focus on anatomical structures, pathological findings, and radiological signs.",
+      "additional_instructions": "Describe findings using standard radiological terminology. Include measurements when relevant (e.g., size of masses, degree of cardiomegaly)."
+    },
+    "pathology": {
+      "modality_type": "pathology",
+      "study_context": "This is a pathology/histopathology image. Focus on cellular structures, tissue architecture, and pathological features.",
+      "additional_instructions": "Describe findings using standard pathological terminology. Include cell types, tissue patterns, and any diagnostic features."
+    },
+    "dermatology": {
+      "modality_type": "dermatology",
+      "study_context": "This is a dermatological image. Focus on skin lesions, morphology, distribution, and dermatological features.",
+      "additional_instructions": "Describe findings using standard dermatological terminology. Include lesion characteristics (size, shape, color, borders, texture)."
+    },
+    "ophthalmology": {
+      "modality_type": "ophthalmology",
+      "study_context": "This is an ophthalmological image. Focus on retinal structures, optic disc, vessels, and any pathological changes.",
+      "additional_instructions": "Describe findings using standard ophthalmological terminology. Include location (quadrants, clock positions) and characteristics of findings."
+    },
+    "general": {
+      "modality_type": "medical imaging",
+      "study_context": "This is a general medical imaging study. Provide a comprehensive analysis based on the clinical observations.",
+      "additional_instructions": "Describe findings using appropriate medical terminology for the imaging modality and anatomical region."
+    }
+  },
+  
+  "metadata": {
+    "version": "1.0",
+    "created_date": "2024-11-19",
+    "author": "MedGemma Team",
+    "supported_modalities": ["radiology", "pathology", "dermatology", "ophthalmology", "general"],
+    "flexible": true
+  }
+}
+

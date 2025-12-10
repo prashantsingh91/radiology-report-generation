@@ -1,0 +1,23 @@
+[Unit]
+Description=MedGemma App - Backend and Frontend Services
+After=network.target
+
+[Service]
+Type=simple
+User=psingh
+WorkingDirectory=/home/psingh/medgemma/medgemma-app
+ExecStart=/bin/bash /home/psingh/medgemma/medgemma-app/start.sh
+ExecStop=/bin/bash -c "pkill -f 'python3.*main.py' && pkill -f 'vite' && sleep 2"
+Restart=always
+RestartSec=10
+TimeoutStartSec=120
+TimeoutStopSec=30
+StandardOutput=journal
+StandardError=journal
+Environment="PATH=/usr/bin:/usr/local/bin:/home/psingh/medgemma/medgemma-app/venv/bin"
+# Don't kill the service if it takes time to start
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+
