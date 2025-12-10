@@ -1,0 +1,57 @@
+{
+  "template_id": "chest_xray_standard_001",
+  "name": "Standard Chest X-Ray Report",
+  "category": "chest",
+  "modality": "X-Ray",
+  "description": "Standard format for chest X-ray radiology reports",
+  
+  "medical_sections": [
+    {
+      "section_id": "clinical_details",
+      "section_name": "Clinical Details",
+      "required": true,
+      "ai_generated": true,
+      "instructions": "Briefly state the reason for the study and relevant clinical context from observations.",
+      "field_id": "CLINICAL_DETAILS"
+    },
+    {
+      "section_id": "findings",
+      "section_name": "Findings",
+      "required": true,
+      "ai_generated": true,
+      "instructions": "Expand on the Radiologist Observations in detail. Use the Radiologist Observations as the foundation and provide a comprehensive description. Do not invent new observations beyond what is stated. If the Radiologist Observations indicate 'normal' or no abnormalities, write a detailed normal report describing the normal appearance of all relevant anatomical structures.",
+      "field_id": "FINDINGS",
+      "user_input_field": true,
+      "user_input_label": "Radiologist Observations",
+      "user_input_placeholder": "Enter findings (e.g., 'bilateral lower lobe opacities' or 'normal')"
+    },
+    {
+      "section_id": "impression",
+      "section_name": "Impression",
+      "required": true,
+      "ai_generated": true,
+      "instructions": "Summarize the primary diagnosis in 1–3 lines (not a single word). Provide a concise but complete diagnostic statement based on the findings.",
+      "field_id": "IMPRESSION"
+    },
+    {
+      "section_id": "recommendations",
+      "section_name": "Recommendations",
+      "required": false,
+      "ai_generated": true,
+      "instructions": "If follow-up is indicated, state it briefly; otherwise return 'None'.",
+      "field_id": "RECOMMENDATIONS"
+    }
+  ],
+  
+  "full_template_format": "RADIOLOGY REPORT\n\nPatient Name: {PATIENT_NAME}\nPatient ID: {PATIENT_ID}\nAge: {PATIENT_AGE}\nSex: {PATIENT_SEX}\nStudy Date: {STUDY_DATE}\nModality: {MODALITY}\nReferring Physician: {REFERRING_PHYSICIAN}\n\nCLINICAL DETAILS:\n{CLINICAL_DETAILS}\n\nFINDINGS:\n{FINDINGS}\n\nIMPRESSION:\n{IMPRESSION}\n\nRECOMMENDATIONS:\n{RECOMMENDATIONS}\n\n---\nReport generated on {REPORT_DATE}",
+  
+  "medical_sections_format": "CLINICAL DETAILS:\n{CLINICAL_DETAILS}\n\nFINDINGS:\n{FINDINGS}\n\nIMPRESSION:\n{IMPRESSION}\n\nRECOMMENDATIONS:\n{RECOMMENDATIONS}",
+  
+  "prompt_template": "You are an expert radiologist assistant.\n\nPatient Information (for reference only – DO NOT generate this as a section):\n{dicom_metadata_example}\n\nRadiologist Observations (this is your only clinical input; base your report ONLY on this):\n{user_findings}\n\nYou must generate the following sections in this exact order:\n{section_headers}\n\nFor the FINDINGS section:\n- Expand on the Radiologist Observations in detail, providing a comprehensive description\n- Use the Radiologist Observations as the foundation and build upon them\n- Do NOT invent new observations beyond what is stated in the Radiologist Observations\n- Write as a coherent narrative paragraph describing all findings together\n- CRITICAL: Do NOT write a single word - always provide a detailed description (minimum 2-3 sentences)\n\nFor the IMPRESSION section:\n- Write 1–2 concise sentences summarizing the primary diagnosis (NOT a single word)\n- Example: \"Cardiomegaly is present. The cardiac silhouette is enlarged with increased cardiothoracic ratio.\"\n\nGenerate ONLY the sections in order.",
+  
+  "metadata": {
+    "version": "1.0",
+    "created_date": "2024-11-19",
+    "author": "MedGemma Team"
+  }
+}
