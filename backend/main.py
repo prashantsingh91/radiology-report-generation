@@ -410,7 +410,7 @@ def process_dicom_file(file_content: bytes) -> tuple[Image.Image, Dict[str, Any]
     try:
         # Read DICOM file from bytes
         dcm = pydicom.dcmread(io.BytesIO(file_content), force=True)
-
+        
         # Extract metadata first
         metadata: Dict[str, Any] = {}
         try:
@@ -432,7 +432,7 @@ def process_dicom_file(file_content: bytes) -> tuple[Image.Image, Dict[str, Any]
                     continue
         except Exception as e:
             metadata['Error'] = f'Metadata extraction failed: {str(e)}'
-
+        
         # If no pixel data (e.g., Structured Report), return placeholder image with metadata
         if 'PixelData' not in dcm:
             # Create a neutral placeholder image
@@ -549,7 +549,7 @@ def process_dicom_file(file_content: bytes) -> tuple[Image.Image, Dict[str, Any]
         # Convert to PIL Image
         image = Image.fromarray(arr)
         return image, metadata
-
+        
     except Exception as e:
         logger.error(f"Error processing DICOM file: {str(e)}")
         raise

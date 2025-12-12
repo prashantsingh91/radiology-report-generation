@@ -517,7 +517,7 @@ function App() {
                       <span style={{ marginLeft: 8 }}>{section.replace('_',' ')}</span>
                     </label>
                   ))}
-                </div>
+              </div>
                 <p className="input-hint">Tip: Common choice is FINDINGS + IMPRESSION.</p>
               </div>
 
@@ -647,7 +647,7 @@ function App() {
             <div className="report-config">
               <h2>🤖 OpenAI Report Generator</h2>
               <p className="input-hint">Generate radiology reports using OpenAI's latest models. Enter findings and provide a template. The prompt comes from prompts/template_filling_prompt.txt.</p>
-              
+
               <div className="form-group">
                 <label htmlFor="openai-model">Select OpenAI Model:</label>
                 <select
@@ -840,14 +840,14 @@ function App() {
                     formData.append('model', openaiModel)
 
                     // Build patient metadata using UI inputs, falling back to DICOM
-                    const patientMetadata = {
+                      const patientMetadata = {
                       PATIENT_SEX: (openaiSex || (dicomMetadata && (dicomMetadata['Patient\'s Sex'] || dicomMetadata['Patient Sex']))) || 'N/A',
                       PATIENT_AGE: (openaiAge || (dicomMetadata && (dicomMetadata['Patient\'s Age'] || dicomMetadata['Patient Age']))) || 'N/A',
                       BODY_PART: openaiBodyPart ? openaiBodyPart.toUpperCase() : ((dicomMetadata && (dicomMetadata['Body Part Examined'] || dicomMetadata['Body Part'])) || 'GENERAL'),
                       MODALITY: openaiModality ? openaiModality.toUpperCase() : ((dicomMetadata && (dicomMetadata['Modality'])) || 'XRAY'),
                       VIEW_POSITION: openaiViewPosition || (dicomMetadata && (dicomMetadata['View Position'] || dicomMetadata['ViewPosition'])) || null
-                    }
-                    formData.append('patient_metadata', JSON.stringify(patientMetadata))
+                      }
+                      formData.append('patient_metadata', JSON.stringify(patientMetadata))
 
                     // Add specialty override if not auto
                     if (openaiSpecialty && openaiSpecialty !== 'auto') {
